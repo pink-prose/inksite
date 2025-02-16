@@ -5,6 +5,7 @@ use leptos_router::*;
 
 mod email;
 mod login;
+mod register;
 
 /// Visual wrapper around all auth views, but there isn't much to show.
 #[component]
@@ -18,10 +19,13 @@ fn AuthWrapper() -> impl IntoView {
 /// Route definitions for /auth subtree.
 #[component(transparent)]
 pub fn AuthRoutes() -> impl MatchNestedRoutes + Clone {
+    use crate::components::auth::email::EmailRoutes;
+
     view! {
         <ParentRoute path=path!("auth") view=AuthWrapper>
             <Route path=path!("") view=login::LoginMethods />
-            <Route path=path!("email") view=email::EmailAuth />
+            <EmailRoutes />
+            <Route path=path!("register") view=register::Register />
         </ParentRoute>
     }
     .into_inner()

@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
     use fred::prelude::ClientLike;
     use leptos::config::get_configuration;
     use leptos::prelude::*;
-    use leptos_actix::{LeptosRoutes, generate_route_list};
+    use leptos_actix::{LeptosRoutes, generate_route_list_with_exclusions};
     use leptos_meta::MetaTags;
     use lettre::{AsyncSmtpTransport, Tokio1Executor};
 
@@ -61,7 +61,10 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         // Generate the list of routes in your Leptos App
-        let routes = generate_route_list(App);
+        let routes = dbg!(generate_route_list_with_exclusions(
+            App, None,
+            // Some(vec!["/auth/email".to_string()])
+        ));
         let leptos_options = &conf.leptos_options;
         let site_root = leptos_options.site_root.clone().to_string();
         let app_state = app_state.clone();
